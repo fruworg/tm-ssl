@@ -86,11 +86,11 @@ DNS.1 = $dns
 IP.1 = $ip"
 
 $linux = "#!/bin/bash
-openssl pkcs12 -in ./iwtm.p12 -nokeys -out /opt/iw/tm5/etc/certification/iwtm.crt -password pass:xxXX1234
-openssl pkcs12 -in ./iwtm.p12 -nocerts -nodes -out /opt/iw/tm5/etc/certification/iwtm.key -password pass:xxXX1234
+openssl pkcs12 -in ./iwtm.p12 -nokeys -out /opt/iw/tm5/etc/certification/$server.crt -password pass:xxXX1234
+openssl pkcs12 -in ./iwtm.p12 -nocerts -nodes -out /opt/iw/tm5/etc/certification/$server.key -password pass:xxXX1234
 cd /etc/nginx/conf.d
-sed -i '9s/web-server.pem/iwtm.crt/' iwtm.conf
-sed -i '10s/web-server.key/iwtm.key/' iwtm.conf
+sed -i '9s/web-server.pem/$server.crt/' iwtm.conf
+sed -i '10s/web-server.key/$server.key/' iwtm.conf
 systemctl restart nginx.service"
 
 #make script.sh + config
