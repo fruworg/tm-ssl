@@ -17,7 +17,7 @@ $password = "xxXX1234"
 
 $country = "RU"
 $state = "MO"
-$city = "Mosow"
+$city = "Moscow"
 $corp = "InfoWatch"
 $unit = "IB"
 $domain = "demo.lab"
