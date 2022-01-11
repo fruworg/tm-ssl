@@ -1,6 +1,7 @@
 #https://the.earth.li/~sgtatham/putty/latest/w64/putty-64bit-0.76-installer.msi
 #https://winscp.net/download/WinSCP-5.19.5-Setup.exe
-#C:\certs\iw-ssl.ps1
+#Get-ExecutionPolicy -Scope CurrentUser
+#.\tm-ssl\tm-ssl.ps1
 
 $path = "C:\OpenSSL\bin"
 $hpath = "C:\certs"
