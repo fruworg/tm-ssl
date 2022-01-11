@@ -1,6 +1,6 @@
 #https://the.earth.li/~sgtatham/putty/latest/w64/putty-64bit-0.76-installer.msi
 #https://winscp.net/download/WinSCP-5.19.5-Setup.exe
-#Get-ExecutionPolicy -Scope CurrentUser
+#Set-ExecutionPolicy Unrestricted -force
 #.\tm-ssl\tm-ssl.ps1
 
 $path = "C:\OpenSSL\bin"
