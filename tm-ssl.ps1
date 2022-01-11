@@ -151,16 +151,16 @@ remove-item "index.old"
 remove-item "index.attr"
 
 cd $wpath
-.\WinSCP.exe sftp://root:xxXX1234@$ip/root/ /upload $lpath\iwtm.p12 $lpath\$cnf.sh /defaults
+.\WinSCP.exe sftp://root:$password@$ip/root/ /upload $lpath\iwtm.p12 $lpath\$cnf.sh /defaults
 
 Import-Certificate -FilePath "$spath\$root.crt" -CertStoreLocation Cert:\LocalMachine\Root
 Import-Certificate -FilePath "$spath\$server.crt" -CertStoreLocation Cert:\LocalMachine\CA
 Import-Certificate -FilePath "$spath\$client.crt" -CertStoreLocation Cert:\LocalMachine\My
 
-plink -batch root@192.168.10.10 -pw xxXX1234 "yum install dos2unix -y"
-plink -batch root@192.168.10.10 -pw xxXX1234 dos2unix "$cnf.sh"
-plink -batch root@192.168.10.10 -pw xxXX1234 "bash $cnf.sh"
-plink -batch root@192.168.10.10 -pw xxXX1234 "rm $cnf.sh"
-plink -batch root@192.168.10.10 -pw xxXX1234 "rm $server.p12"
+plink -batch root@$ip -pw $password "yum install dos2unix -y"
+plink -batch root@$ip -pw $password dos2unix "$cnf.sh"
+plink -batch root@$ip -pw $password "bash $cnf.sh"
+plink -batch root@$ip -pw $password "rm $cnf.sh"
+plink -batch root@$ip -pw $password "rm $server.p12"
 
 cd $hpath
