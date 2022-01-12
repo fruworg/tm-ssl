@@ -5,7 +5,7 @@
 
 $path = "C:\OpenSSL\bin"
 $hpath = "C:\certs"
-$wpath = "C:\WinSCP"
+$wpath = "C:\Program Files (x86)\WinSCP"
 $lpath = "$hpath\linux"
 $spath = "$hpath\sertificates"
 $cnf = "iw"
@@ -98,6 +98,7 @@ cd $path
 write-output "01" | out-file -append -encoding ASCII "serial"
 write-output $config | out-file -append -encoding utf8 "$cnf.cnf"
 write-output $linux | out-file -append -encoding utf8 "$cnf.sh"
+((Get-Content "$cnf.sh") -join "`n") + "`n" | Set-Content -NoNewline "$cnf.sh"
 out-file -append -encoding utf8 "index"
 
 #root
@@ -157,8 +158,6 @@ Import-Certificate -FilePath "$spath\$root.crt" -CertStoreLocation Cert:\LocalMa
 Import-Certificate -FilePath "$spath\$server.crt" -CertStoreLocation Cert:\LocalMachine\CA
 Import-Certificate -FilePath "$spath\$client.crt" -CertStoreLocation Cert:\LocalMachine\My
 
-plink -batch root@$ip -pw $password "yum install dos2unix -y"
-plink -batch root@$ip -pw $password dos2unix "$cnf.sh"
 plink -batch root@$ip -pw $password "bash $cnf.sh"
 plink -batch root@$ip -pw $password "rm $cnf.sh"
 plink -batch root@$ip -pw $password "rm $server.p12"
