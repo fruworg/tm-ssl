@@ -98,8 +98,8 @@ IP.1 = $ip"
 
 # Скрипт для линукса
 $linux = "#!/bin/bash
-openssl pkcs12 -in ./iwtm.p12 -nokeys -out /opt/iw/tm5/etc/certification/$server.crt -password pass:"$password"
-openssl pkcs12 -in ./iwtm.p12 -nocerts -nodes -out /opt/iw/tm5/etc/certification/$server.key -password pass:"$password"
+openssl pkcs12 -in ./iwtm.p12 -nokeys -out /opt/iw/tm5/etc/certification/$server.crt -password pass:$password
+openssl pkcs12 -in ./iwtm.p12 -nocerts -nodes -out /opt/iw/tm5/etc/certification/$server.key -password pass:$password
 cd /etc/nginx/conf.d
 sed -i '9s/web-server.pem/$server.crt/' iwtm.conf
 sed -i '10s/web-server.key/$server.key/' iwtm.conf
