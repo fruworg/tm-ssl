@@ -62,7 +62,7 @@ organizationalUnitName = optional
 emailAddress = optional
 
 [ req ]
-input_password = "$password"
+input_password = $password
 prompt = no
 distinguished_name  = default
 default_bits = 2048
