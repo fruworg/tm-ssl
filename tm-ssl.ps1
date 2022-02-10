@@ -10,7 +10,7 @@
 # .\tm-ssl\tm-ssl.ps1
 
 # Указываем пути
-$path = "C:\OpenSSL\bin"
+$path = "C:\Program Files\OpenSSL-Win64\bin"
 $hpath = "C:\certs"
 $wpath = "C:\Program Files (x86)\WinSCP"
 $lpath = "$hpath\linux"
