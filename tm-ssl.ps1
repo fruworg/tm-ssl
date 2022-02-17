@@ -117,7 +117,6 @@ write-output $linux | out-file -append -encoding utf8 "$cnf.sh"
 # Преобразуем скрипт для линукса в *nix формат
 ((Get-Content "$cnf.sh") -join "`n") + "`n" | Set-Content -NoNewline "$cnf.sh"
 
-
 # Имя сертификата
 $name = $root
 # Создаём корневой ключ
