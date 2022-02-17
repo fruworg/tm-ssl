@@ -16,13 +16,15 @@ $wpath = "C:\Program Files (x86)\WinSCP"
 $lpath = "$hpath\linux"
 $spath = "$hpath\sertificates"
 
-# Тут всё понятно
-$cnf = "iw"
-$ip = "192.168.10.10"
-$dns = "iwtm"
+# Названия сертификатов
 $root = "root"
 $server = "iwtm"
 $client = "arm"
+
+# Данные
+$cnf = "iw"
+$ip = "192.168.10.10"
+$dns = "iwtm"
 $password = "xxXX1234"
 
 # Данные для скрипта
