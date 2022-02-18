@@ -10,7 +10,7 @@
 # plink root@192.168.10.10 -pw xxXX1234
 
 # Запускаем скрипт
-# .\tm-ssl\tm-ssl.ps1
+# .\tm-ssl.ps1
 
 # Указываем пути
 $path = "C:\Program Files\OpenSSL-Win64\bin"
