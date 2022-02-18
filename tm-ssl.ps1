@@ -93,13 +93,12 @@ IP.1 = $ip"
 
 # Скрипт для линукса
 $linux = "#!/bin/bash
-sudo su
 cd /home/$luser/Desktop/
-openssl pkcs12 -in ./iwtm.p12 -nokeys -out /opt/iw/tm5/etc/certification/$server.crt -password pass:$password
-openssl pkcs12 -in ./iwtm.p12 -nocerts -nodes -out /opt/iw/tm5/etc/certification/$server.key -password pass:$password
+sudo openssl pkcs12 -in ./$server.p12 -nokeys -out /opt/iw/tm5/etc/certification/$server.crt -password pass:$password
+sudo openssl pkcs12 -in ./$server.p12 -nocerts -nodes -out /opt/iw/tm5/etc/certification/$server.key -password pass:$password
 cd /etc/nginx/conf.d
-sed -i '9s/web-server.pem/$server.crt/' iwtm.conf
-sed -i '10s/web-server.key/$server.key/' iwtm.conf
+sudo sed -i '9s/web-server.pem/$server.crt/' iwtm.conf
+sudo sed -i '10s/web-server.key/$server.key/' iwtm.conf
 systemctl restart nginx.service"
 
 # Создаём файл с номером и индексом скрипта, конфиг опенссл и скрипт для линукса
@@ -178,7 +177,8 @@ Import-Certificate -FilePath "$spath\$client.crt" -CertStoreLocation Cert:\Local
 
 # Перемещаем скрипт и сертификаты в линупс
 cd $wpath
-.\WinSCP.exe sftp://$luser:$password@$ip/home/iwtm/Desktop/ /upload $lpath\$server.p12 $lpath\$cnf.sh /defaults
+.\WinSCP.exe sftp://${luser}:${password}@${ip}/home/iwtm/Desktop/ /upload $lpath\$server.p12 $lpath\$cnf.sh /defaults
+Start-Sleep -Seconds 1.5
 
 # Запускаем скрипт удалённо
 plink -batch $luser@$ip -pw $password "sudo bash /home/$luser/Desktop/$cnf.sh"
@@ -188,4 +188,4 @@ plink -batch $luser@$ip -pw $password "sudo rm /home/$luser/Desktop/$cnf.sh"
 plink -batch $luser@$ip -pw $password "sudo rm /home/$luser/Desktop/$server.p12"
 
 # Возвращаемся в домашнюю директорию
-cd $hpath
+#cd $hpath
