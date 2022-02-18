@@ -26,6 +26,7 @@ $client = "arm"
 
 # Данные
 $luser = "iwtm"
+$puser = "root"
 $cnf = "iw"
 $ip = "192.168.10.10"
 $dns = "iwtm"
@@ -96,7 +97,7 @@ IP.1 = $ip"
 
 # Скрипт для линукса
 $linux = "#!/bin/bash
-cd /home/$luser/Desktop/
+cd /home/$luser
 sudo openssl pkcs12 -in ./$server.p12 -nokeys -out /opt/iw/tm5/etc/certification/$server.crt -password pass:$password
 sudo openssl pkcs12 -in ./$server.p12 -nocerts -nodes -out /opt/iw/tm5/etc/certification/$server.key -password pass:$password
 cd /etc/nginx/conf.d
@@ -180,15 +181,15 @@ Import-Certificate -FilePath "$spath\$client.crt" -CertStoreLocation Cert:\Local
 
 # Перемещаем скрипт и сертификаты в линупс
 cd $wpath
-.\WinSCP.exe sftp://${luser}:${password}@${ip}/home/iwtm/Desktop/ /upload $lpath\$server.p12 $lpath\$cnf.sh /defaults
+.\WinSCP.exe sftp://${luser}:${password}@${ip}/home/$luser/ /upload $lpath\$server.p12 $lpath\$cnf.sh /defaults
 Start-Sleep -Seconds 1.5
 
 # Запускаем скрипт удалённо
-plink -batch $luser@$ip -pw $password "sudo bash /home/$luser/Desktop/$cnf.sh"
+plink -batch $luser@$ip -pw $password "sudo bash /home/$luser/$cnf.sh"
 
 # Чистим за собой
-plink -batch $luser@$ip -pw $password "sudo rm /home/$luser/Desktop/$cnf.sh"
-plink -batch $luser@$ip -pw $password "sudo rm /home/$luser/Desktop/$server.p12"
+plink -batch $puser@$ip -pw $password "sudo rm /home/$luser/$cnf.sh"
+plink -batch $puser@$ip -pw $password "sudo rm /home/$luser/$server.p12"
 
 # Возвращаемся в домашнюю директорию
 cd $hpath
