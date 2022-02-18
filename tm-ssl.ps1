@@ -191,4 +191,4 @@ plink -batch $luser@$ip -pw $password "sudo rm /home/$luser/Desktop/$cnf.sh"
 plink -batch $luser@$ip -pw $password "sudo rm /home/$luser/Desktop/$server.p12"
 
 # Возвращаемся в домашнюю директорию
-#cd $hpath
+cd $hpath
