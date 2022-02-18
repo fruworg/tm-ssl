@@ -22,6 +22,7 @@ $server = "iwtm"
 $client = "arm"
 
 # Данные
+$luser = "iwtm"
 $cnf = "iw"
 $ip = "192.168.10.10"
 $dns = "iwtm"
@@ -39,7 +40,6 @@ $domain = "demo.lab"
 $config = "
 [ ca ]
 default_ca = CA_default
-
 [ CA_default ]
 certs = ./
 serial = serial
@@ -54,7 +54,6 @@ email_in_dn  = no
 nameopt = default_ca
 certopt = default_ca
 policy = policy_match
-
 [ policy_match ]
 commonName = supplied
 countryName = optional
@@ -62,7 +61,6 @@ stateOrProvinceName = optional
 organizationName = optional
 organizationalUnitName = optional
 emailAddress = optional
-
 [ req ]
 input_password = $password
 prompt = no
@@ -73,33 +71,30 @@ default_md = sha256
 req_extensions = v3_req
 encyrpt_key = no
 x509_extensions = v3_ca
-
 [ default ]
 commonName = default
-
 [ v3_ca ]
 subjectKeyIdentifier=hash
 authorityKeyIdentifier=keyid:always,issuer
 basicConstraints = critical,CA:true
-
 [ v3_intermediate_ca ]
 subjectKeyIdentifier = hash
 authorityKeyIdentifier = keyid:always,issuer
 basicConstraints = critical, CA:true, pathlen:0
 keyUsage = critical, digitalSignature, cRLSign, keyCertSign
 subjectAltName = @alt_names
-
 [ v3_req ]
 basicConstraints = CA:FALSE
 subjectKeyIdentifier = hash
 subjectAltName = @alt_names
-
 [ alt_names ]
 DNS.1 = $dns
 IP.1 = $ip"
 
 # Скрипт для линукса
 $linux = "#!/bin/bash
+sudo su
+cd /home/$luser/Desktop/
 openssl pkcs12 -in ./iwtm.p12 -nokeys -out /opt/iw/tm5/etc/certification/$server.crt -password pass:$password
 openssl pkcs12 -in ./iwtm.p12 -nocerts -nodes -out /opt/iw/tm5/etc/certification/$server.key -password pass:$password
 cd /etc/nginx/conf.d
@@ -183,14 +178,14 @@ Import-Certificate -FilePath "$spath\$client.crt" -CertStoreLocation Cert:\Local
 
 # Перемещаем скрипт и сертификаты в линупс
 cd $wpath
-.\WinSCP.exe sftp://root:$password@$ip/root/ /upload $lpath\iwtm.p12 $lpath\$cnf.sh /defaults
+.\WinSCP.exe sftp://$luser:$password@$ip/home/iwtm/Desktop/ /upload $lpath\$server.p12 $lpath\$cnf.sh /defaults
 
 # Запускаем скрипт удалённо
-plink -batch root@$ip -pw $password "bash $cnf.sh"
+plink -batch $luser@$ip -pw $password "sudo bash /home/$luser/Desktop/$cnf.sh"
 
 # Чистим за собой
-plink -batch root@$ip -pw $password "rm $cnf.sh"
-plink -batch root@$ip -pw $password "rm $server.p12"
+plink -batch $luser@$ip -pw $password "sudo rm /home/$luser/Desktop/$cnf.sh"
+plink -batch $luser@$ip -pw $password "sudo rm /home/$luser/Desktop/$server.p12"
 
 # Возвращаемся в домашнюю директорию
 cd $hpath
