@@ -185,7 +185,7 @@ cd $wpath
 Start-Sleep -Seconds 1.5
 
 # Запускаем скрипт удалённо
-plink -batch $luser@$ip -pw $password "sudo bash /home/$luser/$cnf.sh"
+plink -batch $puser@$ip -pw $password "sudo bash /home/$luser/$cnf.sh"
 
 # Чистим за собой
 plink -batch $puser@$ip -pw $password "sudo rm /home/$luser/$cnf.sh"
