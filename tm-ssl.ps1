@@ -12,12 +12,16 @@
 # Запускаем скрипт
 # .\tm-ssl.ps1
 
+# Если Астра, то $puser = "$luser"
+$luser = "iwtm"
+$puser = "root"
+
 # Указываем пути
 $path = "C:\Program Files\OpenSSL-Win64\bin"
-$hpath = "C:\certs"
+$hpath = "C:\ts-out"
 $wpath = "C:\Program Files (x86)\WinSCP"
 $lpath = "$hpath\linux"
-$spath = "$hpath\sertificates"
+$cpath = "$hpath\certs"
 
 # Названия сертификатов
 $root = "root"
@@ -25,8 +29,6 @@ $server = "iwtm"
 $client = "arm"
 
 # Данные
-$luser = "iwtm"
-$puser = "root"
 $cnf = "iw"
 $ip = "192.168.10.10"
 $dns = "iwtm"
@@ -92,7 +94,7 @@ basicConstraints = CA:FALSE
 subjectKeyIdentifier = hash
 subjectAltName = @alt_names
 [ alt_names ]
-DNS.1 = $dns
+DNS.1 = $dns.$domain
 IP.1 = $ip"
 
 # Скрипт для линукса
@@ -147,7 +149,7 @@ $name = $client
 .\openssl pkcs12 -export -in "$server.crt" -inkey "$server.key" -in "$client.crt" -inkey "$client.key"-in "$root.crt" -inkey "$root.key" -out out.p12 -password pass:"$password"
 
 # Создаём директории для сертификатов и линупса
-new-item -path "$spath" -ItemType Directory -force
+new-item -path "$cpath" -ItemType Directory -force
 new-item -path "$lpath" -ItemType Directory -force
 
 # Перемещаем скрипт для линукса, серверный ключ и сертификат
@@ -155,15 +157,15 @@ move-item -path ".\$server.p12" -destination "$lpath\$server.p12" -force
 move-item -path ".\$cnf.sh" -destination "$lpath\$cnf.sh" -force
 
 # Перемещаем остальные сертификаты
-move-item -path ".\$root.key" -destination "$spath\$root.key" -force
-move-item -path ".\$root.crt" -destination "$spath\$root.crt" -force
-move-item -path ".\$server.key" -destination "$spath\$server.key" -force
-move-item -path ".\$server.csr" -destination "$spath\$server.csr" -force
-move-item -path ".\$server.crt" -destination "$spath\$server.crt" -force
-move-item -path ".\$client.key" -destination "$spath\$client.key" -force
-move-item -path ".\$client.csr" -destination "$spath\$client.csr" -force
-move-item -path ".\$client.crt" -destination "$spath\$client.crt" -force
-move-item -path ".\out.p12" -destination "$spath\out.p12" -force
+move-item -path ".\$root.key" -destination "$cpath\$root.key" -force
+move-item -path ".\$root.crt" -destination "$cpath\$root.crt" -force
+move-item -path ".\$server.key" -destination "$cpath\$server.key" -force
+move-item -path ".\$server.csr" -destination "$cpath\$server.csr" -force
+move-item -path ".\$server.crt" -destination "$cpath\$server.crt" -force
+move-item -path ".\$client.key" -destination "$cpath\$client.key" -force
+move-item -path ".\$client.csr" -destination "$cpath\$client.csr" -force
+move-item -path ".\$client.crt" -destination "$cpath\$client.crt" -force
+move-item -path ".\out.p12" -destination "$cpath\out.p12" -force
 
 # Подчищаем за собой
 remove-item "$cnf.cnf"
@@ -175,9 +177,9 @@ remove-item "index.old"
 remove-item "index.attr"
 
 # Устанавливаем сертификаты в шиндоус
-Import-Certificate -FilePath "$spath\$root.crt" -CertStoreLocation Cert:\LocalMachine\Root
-Import-Certificate -FilePath "$spath\$server.crt" -CertStoreLocation Cert:\LocalMachine\CA
-Import-Certificate -FilePath "$spath\$client.crt" -CertStoreLocation Cert:\LocalMachine\My
+Import-Certificate -FilePath "$cpath\$root.crt" -CertStoreLocation Cert:\LocalMachine\Root
+Import-Certificate -FilePath "$cpath\$server.crt" -CertStoreLocation Cert:\LocalMachine\CA
+Import-Certificate -FilePath "$cpath\$client.crt" -CertStoreLocation Cert:\LocalMachine\My
 
 # Перемещаем скрипт и сертификаты в линупс
 cd $wpath
