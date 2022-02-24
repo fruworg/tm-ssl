@@ -18,7 +18,7 @@ $puser = "root"
 
 # Указываем пути
 $path = "C:\Program Files\OpenSSL-Win64\bin"
-$hpath = "C:\ts-out"
+$hpath = "C:\tm-ssl"
 $wpath = "C:\Program Files (x86)\WinSCP"
 $lpath = "$hpath\linux"
 $cpath = "$hpath\certs"
