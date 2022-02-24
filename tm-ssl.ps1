@@ -195,8 +195,8 @@ Start-Sleep -Seconds 1.5
 plink -batch $puser@$ip -pw $password "sudo bash /$dpath/$cnf.sh"
 
 # Чистим за собой
-plink -batch $puser@$ip -pw $password "sudo rm /$dpath/$luser/$cnf.sh"
-plink -batch $puser@$ip -pw $password "sudo rm /$dpath/$luser/$server.p12"
+plink -batch $puser@$ip -pw $password "sudo rm /$dpath/$cnf.sh"
+plink -batch $puser@$ip -pw $password "sudo rm /$dpath/server.p12"
 
 # Возвращаемся в домашнюю директорию
 cd $hpath
