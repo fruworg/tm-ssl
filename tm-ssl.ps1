@@ -12,7 +12,7 @@
 # Запускаем скрипт
 # .\tm-ssl.ps1
 
-if ($args[0] -ne ""){
+if ($args[0] -ne $args[10]){
 # Дистр
 $luser = "iwtm"
 $puser = "root"
