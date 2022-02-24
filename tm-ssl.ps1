@@ -13,6 +13,7 @@
 # cd ~\Desktop\; .\*.ps1 a
 
 if ($args[0] -ne $args[10]){
+
 # Дистр
 $luser = "iwtm"
 $puser = "root"
@@ -39,15 +40,15 @@ $cnf = "iw"
 $ip = "192.168.10.10"
 $dns = "iwtm"
 $password = "xxXX1234"
+$site = "$dns.$domain"
 
-# Данные для скрипта
+# Данные для сертификата
 $country = "RU"
 $state = "MO"
 $city = "Moscow"
 $corp = "InfoWatch"
 $unit = "IB"
 $domain = "demo.lab"
-$site = "$dns.$domain"
 
 # Конфиг опенссл
 $config = "
