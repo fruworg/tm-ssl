@@ -10,7 +10,7 @@
 # plink iwtm@192.168.10.10 -pw xxXX1234
 
 # Запускаем скрипт
-# cd ~\Desktop\; .\t*.ps1
+# cd ~\Desktop\; .\*.ps1 a
 
 if ($args[0] -ne $args[10]){
 # Дистр
@@ -47,6 +47,7 @@ $city = "Moscow"
 $corp = "InfoWatch"
 $unit = "IB"
 $domain = "demo.lab"
+$site = "$dns.$domain"
 
 # Конфиг опенссл
 $config = "
@@ -100,7 +101,7 @@ basicConstraints = CA:FALSE
 subjectKeyIdentifier = hash
 subjectAltName = @alt_names
 [ alt_names ]
-DNS.1 = $dns.$domain
+DNS.1 = $site
 IP.1 = $ip"
 
 # Скрипт для линукса
@@ -200,6 +201,10 @@ plink -batch $puser@$ip -pw $password "sudo rm /$dpath/$server.p12"
 
 # Возвращаемся в домашнюю директорию
 cd $hpath
+
+# Записываем данные в хостс
+echo "$ip $site" > "C:\Windows\System32\drivers\etc\hosts"
+
 }else{
 echo "Ты забыл указать ОС!"
 }
