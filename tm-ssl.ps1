@@ -15,10 +15,10 @@
 # Дистр
 $luser = "iwtm"
 $puser = "root"
-if ($1 -eq "a")
+if ($args[0] -eq "a")
 {$dpath = "home/$luser/Desktop/"
 $puser = "$luser"}
-if ($1 -eq "c")
+if ($args[0] -eq "c")
 {$dpath = "root/"}
 
 # Указываем пути
