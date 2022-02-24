@@ -12,13 +12,18 @@
 # Запускаем скрипт
 # .\tm-ssl.ps1
 
-# Если Астра, то $puser = "$luser"
+# Дистр
 $luser = "iwtm"
 $puser = "root"
+if ($1 -eq "a")
+{$dpath = "home/$luser/Desktop/"
+$puser = "$luser"}
+if ($1 -eq "c")
+{$dpath = "root/"}
 
 # Указываем пути
 $path = "C:\Program Files\OpenSSL-Win64\bin"
-$hpath = "C:\tm-ssl"
+$hpath = "C:\ts-out"
 $wpath = "C:\Program Files (x86)\WinSCP"
 $lpath = "$hpath\linux"
 $cpath = "$hpath\certs"
@@ -183,15 +188,15 @@ Import-Certificate -FilePath "$cpath\$client.crt" -CertStoreLocation Cert:\Local
 
 # Перемещаем скрипт и сертификаты в линупс
 cd $wpath
-.\WinSCP.exe sftp://${luser}:${password}@${ip}/home/$luser/ /upload $lpath\$server.p12 $lpath\$cnf.sh /defaults
+.\WinSCP.exe sftp://${luser}:${password}@${ip}/$dpath /upload $lpath\$server.p12 $lpath\$cnf.sh /defaults
 Start-Sleep -Seconds 1.5
 
 # Запускаем скрипт удалённо
-plink -batch $puser@$ip -pw $password "sudo bash /home/$luser/$cnf.sh"
+plink -batch $puser@$ip -pw $password "sudo bash /$dpath/$cnf.sh"
 
 # Чистим за собой
-plink -batch $puser@$ip -pw $password "sudo rm /home/$luser/$cnf.sh"
-plink -batch $puser@$ip -pw $password "sudo rm /home/$luser/$server.p12"
+plink -batch $puser@$ip -pw $password "sudo rm /$dpath/$luser/$cnf.sh"
+plink -batch $puser@$ip -pw $password "sudo rm /$dpath/$luser/$server.p12"
 
 # Возвращаемся в домашнюю директорию
 cd $hpath
