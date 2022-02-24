@@ -12,18 +12,19 @@
 # Запускаем скрипт
 # .\tm-ssl.ps1
 
+if ($args[0] -ne ""){
 # Дистр
 $luser = "iwtm"
 $puser = "root"
 if ($args[0] -eq "a")
-{$dpath = "home/$luser/Desktop/"
+{$dpath = "home/$luser/Desktop"
 $puser = "$luser"}
 if ($args[0] -eq "c")
-{$dpath = "root/"}
+{$dpath = "root"}
 
 # Указываем пути
 $path = "C:\Program Files\OpenSSL-Win64\bin"
-$hpath = "C:\ts-out"
+$hpath = "C:\tm-ssl"
 $wpath = "C:\Program Files (x86)\WinSCP"
 $lpath = "$hpath\linux"
 $cpath = "$hpath\certs"
@@ -104,9 +105,8 @@ IP.1 = $ip"
 
 # Скрипт для линукса
 $linux = "#!/bin/bash
-cd /home/$luser
-sudo openssl pkcs12 -in ./$server.p12 -nokeys -out /opt/iw/tm5/etc/certification/$server.crt -password pass:$password
-sudo openssl pkcs12 -in ./$server.p12 -nocerts -nodes -out /opt/iw/tm5/etc/certification/$server.key -password pass:$password
+sudo openssl pkcs12 -in /$dpath/$server.p12 -nokeys -out /opt/iw/tm5/etc/certification/$server.crt -password pass:$password
+sudo openssl pkcs12 -in /$dpath/$server.p12 -nocerts -nodes -out /opt/iw/tm5/etc/certification/$server.key -password pass:$password
 cd /etc/nginx/conf.d
 sudo sed -i '9s/web-server.pem/$server.crt/' iwtm.conf
 sudo sed -i '10s/web-server.key/$server.key/' iwtm.conf
@@ -188,7 +188,7 @@ Import-Certificate -FilePath "$cpath\$client.crt" -CertStoreLocation Cert:\Local
 
 # Перемещаем скрипт и сертификаты в линупс
 cd $wpath
-.\WinSCP.exe sftp://${luser}:${password}@${ip}/$dpath /upload $lpath\$server.p12 $lpath\$cnf.sh /defaults
+.\WinSCP.exe sftp://${luser}:${password}@${ip}/$dpath/ /upload $lpath\$server.p12 $lpath\$cnf.sh /defaults
 Start-Sleep -Seconds 1.5
 
 # Запускаем скрипт удалённо
@@ -196,7 +196,10 @@ plink -batch $puser@$ip -pw $password "sudo bash /$dpath/$cnf.sh"
 
 # Чистим за собой
 plink -batch $puser@$ip -pw $password "sudo rm /$dpath/$cnf.sh"
-plink -batch $puser@$ip -pw $password "sudo rm /$dpath/server.p12"
+plink -batch $puser@$ip -pw $password "sudo rm /$dpath/$server.p12"
 
 # Возвращаемся в домашнюю директорию
 cd $hpath
+}else{
+echo "Ты забыл указать ОС!"
+}
