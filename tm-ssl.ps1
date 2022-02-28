@@ -122,7 +122,7 @@ write-output $config | out-file -append -encoding utf8 "$cnf.cnf"
 write-output $linux | out-file -append -encoding utf8 "$cnf.sh"
 
 # Преобразуем скрипт для линукса в *nix формат
-((Get-Content "$cnf.sh") -join "`n") + "`n" | Set-Content -NoNewline "$cnf.sh"
+[string]::Join( "`n", (gc "$cnf.sh")) | sc -encoding utf8 "$cnf.sh"
 
 # Имя сертификата
 $name = $root
