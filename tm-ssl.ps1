@@ -25,7 +25,7 @@ if ($args[0] -eq "c")
 
 # Указываем пути
 $path = "C:\Program Files\OpenSSL-Win64\bin"
-$hpath = "C:\tm-ssl"
+$hpath = "$(pwd)\tm-ssl"
 $wpath = "C:\Program Files (x86)\WinSCP"
 $lpath = "$hpath\linux"
 $cpath = "$hpath\certs"
@@ -38,9 +38,7 @@ $client = "arm"
 # Данные
 $cnf = "iw"
 $ip = "192.168.10.10"
-$dns = "iwtm"
 $password = "xxXX1234"
-$site = "$dns.$domain"
 
 # Данные для сертификата
 $country = "RU"
@@ -48,7 +46,10 @@ $state = "MO"
 $city = "Moscow"
 $corp = "InfoWatch"
 $unit = "IB"
+$dns = "iwtm"
 $domain = "demo.lab"
+$site = "$dns.$domain"
+
 
 # Конфиг опенссл
 $config = "
