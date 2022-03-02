@@ -9,8 +9,8 @@
 # Делаем ручное подключение (Астра)
 # plink iwtm@192.168.10.10 -pw xxXX1234
 
-# Запускаем скрипт
-# cd ~\Desktop\; .\*.ps1 a
+# Запускаем скрипт ([a]stra или [c]entos)
+# cd ~\Desktop\; .\tm-ssl.ps1 a
 
 if ($args[0] -ne $args[10]){
 
