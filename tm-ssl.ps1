@@ -3,14 +3,11 @@
 # https://the.earth.li/~sgtatham/putty/latest/w64/putty-64bit-0.76-installer.msi
 # https://winscp.net/download/WinSCP-5.19.5-Setup.exe
 
-# Разрешаем запуск скриптов
-# Set-ExecutionPolicy Unrestricted -force
-
 # Делаем ручное подключение (Астра)
 # plink iwtm@192.168.10.10 -pw xxXX1234
 
 # Запускаем скрипт ([a]stra или [c]entos)
-# cd ~\Desktop\; .\tm-ssl.ps1 a
+# Set-ExecutionPolicy Unrestricted -force; cd ~\Desktop\; .\tm-ssl.ps1 a
 
 if ($args[0] -ne $args[10]){
 
